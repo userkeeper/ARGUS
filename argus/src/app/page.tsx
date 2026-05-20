@@ -422,7 +422,7 @@ export default function Dashboard() {
             <Globe className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
           )}
           <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapProjection === 'globe' ? {t('switch_2d', lang)} : {t('switch_3d', lang)}}
+            {mapProjection === 'globe' ? t('switch_2d', lang) : t('switch_3d', lang)}
           </span>
         </button>
 
@@ -438,7 +438,7 @@ export default function Dashboard() {
             <Moon className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
           )}
           <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapStyle === 'dark' ? {t('satellite_view', lang)} : {t('night_mode', lang)}}
+            {mapStyle === 'dark' ? t('satellite_view', lang) : t('night_mode', lang)}
           </span>
         </button>
       </motion.div>
