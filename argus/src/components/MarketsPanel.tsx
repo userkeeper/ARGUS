@@ -7,14 +7,14 @@ import {
   Zap, Shield, Droplets, Gem, Bitcoin, LineChart,
 } from 'lucide-react';
 
-interface MarketsPanelProps { data: any; spaceWeather?: any; }
+interface MarketsPanelProps { data: any; spaceWeather?: any; lang?: 'en'|'ru'; }
 
-const SECTIONS = [
-  { key: 'indices', label: 'INDICES', icon: LineChart },
-  { key: 'stocks', label: 'DEFENSE', icon: Shield },
-  { key: 'oil', label: 'ENERGY', icon: Droplets },
-  { key: 'commodities', label: 'COMMODITIES', icon: Gem },
-  { key: 'crypto', label: 'CRYPTO', icon: Bitcoin },
+const SECTIONS_EN = [
+  { key: 'indices', label: 'INDICES', labelRu: 'ИНДЕКСЫ', icon: LineChart },
+  { key: 'stocks', label: 'DEFENSE', labelRu: 'ОПК', icon: Shield },
+  { key: 'oil', label: 'ENERGY', labelRu: 'ЭНЕРГЕТИКА', icon: Droplets },
+  { key: 'commodities', label: 'COMMODITIES', labelRu: 'СЫРЬЁ', icon: Gem },
+  { key: 'crypto', label: 'CRYPTO', labelRu: 'КРИПТО', icon: Bitcoin },
 ];
 
 function Ticker({ name, data: d }: { name: string; data: any }) {
@@ -35,7 +35,7 @@ function Ticker({ name, data: d }: { name: string; data: any }) {
   );
 }
 
-export default function MarketsPanel({ data, spaceWeather }: MarketsPanelProps) {
+export default function MarketsPanel({ data, spaceWeather, lang = 'en' }: MarketsPanelProps) {
   const [expanded, setExpanded] = useState(true);
   const [activeSection, setActiveSection] = useState('stocks');
   const markets = data.markets || {};

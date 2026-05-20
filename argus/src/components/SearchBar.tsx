@@ -10,9 +10,10 @@ import { Search, X, MapPin } from 'lucide-react';
 
 interface SearchBarProps {
   onLocate: (lat: number, lng: number) => void;
+  lang?: 'en'|'ru';
 }
 
-export default function SearchBar({ onLocate }: SearchBarProps) {
+export default function SearchBar({ onLocate, lang = 'en' }: SearchBarProps) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
   const [results, setResults] = useState<{ label: string; lat: number; lng: number }[]>([]);
@@ -68,7 +69,7 @@ export default function SearchBar({ onLocate }: SearchBarProps) {
         className="flex items-center gap-1.5 glass-panel-sm px-3 py-2 text-[9px] font-mono tracking-[0.15em] text-[var(--text-muted)] hover:text-[var(--gold-primary)] hover:border-[var(--border-active)] transition-colors"
       >
         <Search className="w-3 h-3" />
-        LOCATE
+        {lang === 'ru' ? 'НАЙТИ' : 'LOCATE'}
       </button>
     );
   }
@@ -85,7 +86,7 @@ export default function SearchBar({ onLocate }: SearchBarProps) {
             if (e.key === 'Escape') { setOpen(false); setValue(''); setResults([]); }
             if (e.key === 'Enter' && results.length > 0) handleSelect(results[0]);
           }}
-          placeholder="Enter coordinates (31.8, 34.8) or place name..."
+          placeholder={lang === "ru" ? "Координаты (31.8, 34.8) или название места..." : "Enter coordinates (31.8, 34.8) or place name..."}
           className="flex-1 bg-transparent text-[10px] text-[var(--text-primary)] font-mono tracking-wider outline-none placeholder:text-[var(--text-muted)]"
         />
         {loading && <div className="w-3 h-3 border border-[var(--gold-primary)] border-t-transparent rounded-full animate-spin" />}

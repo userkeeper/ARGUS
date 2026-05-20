@@ -8,8 +8,9 @@ import {
   Wifi, Lock, MapPin, Bug, Code, Layers, Network, Fingerprint,
   CheckCircle, XCircle, Clock, ExternalLink,
 } from 'lucide-react';
+import type { Lang } from '@/lib/i18n';
 
-const TABS = [
+const TABS_EN = [
   { id: 'scanner', label: 'PORT SCAN', icon: Radar, placeholder: 'IP or hostname', color: '#00E5FF' },
   { id: 'vuln', label: 'VULN SCAN', icon: Bug, placeholder: 'IP or hostname', color: '#FF3D3D' },
 
@@ -23,9 +24,9 @@ const TABS = [
   { id: 'tech', label: 'TECH DETECT', icon: Fingerprint, placeholder: 'URL to fingerprint', color: '#9C27B0' },
 ];
 
-interface OsintPanelProps { isOpen?: boolean; onClose?: () => void; isMobile?: boolean; }
+interface OsintPanelProps { isOpen?: boolean; onClose?: () => void; isMobile?: boolean; lang?: Lang; }
 
-function OsintPanelInner({ isMobile }: OsintPanelProps) {
+function OsintPanelInner({ isMobile, lang = 'en' }: OsintPanelProps) {
   const [activeTab, setActiveTab] = useState('scanner');
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<any>(null);
@@ -65,6 +66,20 @@ function OsintPanelInner({ isMobile }: OsintPanelProps) {
     finally { setLoading(false); }
   }, [query, activeTab, scanType, loading]);
 
+  const TABS = TABS_EN.map(tab => ({
+    ...tab,
+    label: lang === 'ru' ? ({
+      'scanner': 'ПОРТЫ', 'vuln': 'УЯЗВ.', 'dns': 'DNS', 'whois': 'WHOIS',
+      'certs': 'СЕРТ.', 'threats': 'УГРОЗЫ', 'headers': 'ЗАГОЛОВКИ',
+      'ssl': 'SSL/TLS', 'subdomains': 'ПОДДОМЕНЫ', 'tech': 'ТЕХНОЛОГИИ',
+    } as Record<string,string>)[tab.id] ?? tab.label : tab.label,
+    placeholder: lang === 'ru' ? ({
+      'scanner': 'IP или хост', 'vuln': 'IP или хост', 'dns': 'Домен',
+      'whois': 'Домен', 'certs': 'Домен', 'threats': 'IP, домен или хэш',
+      'headers': 'URL для анализа', 'ssl': 'Домен', 'subdomains': 'Домен',
+      'tech': 'URL для сканирования',
+    } as Record<string,string>)[tab.id] ?? tab.placeholder : tab.placeholder,
+  }));
   const currentTab = TABS.find(t => t.id === activeTab);
 
   // ── Shodan-style structured result renderers ──
@@ -341,7 +356,7 @@ function OsintPanelInner({ isMobile }: OsintPanelProps) {
         <button onClick={runLookup} disabled={loading || !query.trim()}
           className="px-4 py-2 rounded-lg text-[10px] font-mono font-bold tracking-wider disabled:opacity-30 transition-all"
           style={{ backgroundColor: `${currentTab?.color}20`, border: `1px solid ${currentTab?.color}40`, color: currentTab?.color }}>
-          {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'SCAN'}
+          {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : (lang === 'ru' ? 'СКАН' : 'SCAN')}
         </button>
       </div>
 

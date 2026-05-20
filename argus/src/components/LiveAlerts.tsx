@@ -6,11 +6,13 @@ import {
   ChevronDown, ChevronUp, MapPin, ExternalLink, AlertTriangle,
   Newspaper, Clock, Radio,
 } from 'lucide-react';
+import type { Lang } from '@/lib/i18n';
 
 interface LiveAlertsProps {
   data: any;
   onLocate: (lat: number, lng: number) => void;
   onWatchFeed?: (url: string, name: string) => void;
+  lang?: Lang;
 }
 
 const RISK_COLORS: Record<string, string> = {
@@ -21,7 +23,7 @@ const RISK_COLORS: Record<string, string> = {
   LOW: '#00E676',
 };
 
-export default function LiveAlerts({ data, onLocate, onWatchFeed }: LiveAlertsProps) {
+export default function LiveAlerts({ data, onLocate, onWatchFeed, lang = 'en' }: LiveAlertsProps) {
   const [expanded, setExpanded] = useState(true);
   const [filter, setFilter] = useState<'all' | 'news' | 'quakes' | 'feeds'>('all');
 

@@ -12,6 +12,7 @@ import { Newspaper, ChevronDown, ChevronUp, ExternalLink, MapPin, Zap } from 'lu
 interface IntelFeedProps {
   data: any;
   onLocate?: (lat: number, lng: number) => void;
+  lang?: 'en' | 'ru';
 }
 
 function getRiskClass(score: number): string {
@@ -21,7 +22,13 @@ function getRiskClass(score: number): string {
   return 'risk-low';
 }
 
-function getRiskLabel(score: number): string {
+function getRiskLabel(score: number, lang: 'en'|'ru' = 'en'): string {
+  if (lang === 'ru') {
+    if (score >= 8) return 'КРИТ.';
+    if (score >= 6) return 'ВЫСОК.';
+    if (score >= 4) return 'ПОВЫШ.';
+    return 'НОРМА';
+  }
   if (score >= 8) return 'CRITICAL';
   if (score >= 6) return 'HIGH';
   if (score >= 4) return 'ELEVATED';
@@ -33,16 +40,16 @@ function timeAgo(dateStr: string): string {
     const date = new Date(dateStr);
     const diff = Date.now() - date.getTime();
     const mins = Math.floor(diff / 60000);
-    if (mins < 60) return `${mins}m ago`;
+    if (mins < 60) return lang === 'ru' ? `${mins}м назад` : `${mins}m ago`;
     const hrs = Math.floor(mins / 60);
-    if (hrs < 24) return `${hrs}h ago`;
-    return `${Math.floor(hrs / 24)}d ago`;
+    if (hrs < 24) return lang === 'ru' ? `${hrs}ч назад` : `${hrs}h ago`;
+    return lang === 'ru' ? `${Math.floor(hrs / 24)}д назад` : `${Math.floor(hrs / 24)}d ago`;
   } catch {
     return '';
   }
 }
 
-export default function IntelFeed({ data, onLocate }: IntelFeedProps) {
+export default function IntelFeed({ data, onLocate, lang = 'en' }: IntelFeedProps) {
   const [expanded, setExpanded] = useState(true);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const news = data.news || [];
@@ -61,7 +68,7 @@ export default function IntelFeed({ data, onLocate }: IntelFeedProps) {
       >
         <div className="flex items-center gap-2">
           <Newspaper className="w-3.5 h-3.5 text-[var(--gold-primary)]" />
-          <span className="hud-text text-[12px] text-[var(--text-primary)]">SIGINT FEED</span>
+          <span className="hud-text text-[12px] text-[var(--text-primary)]">{lang === 'ru' ? 'РАЗВЕДКА' : 'SIGINT FEED'}</span>
           <span className="text-[9px] font-mono text-[var(--text-muted)]">{news.length}</span>
         </div>
         <div className="flex items-center gap-2">
@@ -83,7 +90,7 @@ export default function IntelFeed({ data, onLocate }: IntelFeedProps) {
               {news.length === 0 ? (
                 <div className="px-4 py-6 text-center">
                   <span className="text-[11px] font-mono text-[var(--text-muted)] tracking-widest">
-                    AWAITING INTELLIGENCE...
+                    {lang === 'ru' ? 'ОЖИДАНИЕ ДАННЫХ...' : 'AWAITING INTELLIGENCE...'}
                   </span>
                 </div>
               ) : (
@@ -96,7 +103,7 @@ export default function IntelFeed({ data, onLocate }: IntelFeedProps) {
                     {/* Top row: risk badge + source + time */}
                     <div className="flex items-center gap-2 mb-1">
                       <span className={`text-[9px] font-mono font-bold tracking-widest ${getRiskClass(item.risk_score)}`}>
-                        {getRiskLabel(item.risk_score)}
+                        {getRiskLabel(item.risk_score, lang)}
                       </span>
                       <span className="text-[8px] font-mono text-[var(--text-muted)] bg-[var(--bg-tertiary)] px-1.5 py-0.5 rounded">
                         {item.source}
