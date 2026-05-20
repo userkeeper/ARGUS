@@ -421,7 +421,7 @@ export default function Dashboard() {
             <Globe className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
           )}
           <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapProjection === 'globe' ? '2D MAP' : '3D GLOBE'}
+            {mapProjection === 'globe' ? t('switch_2d', lang) : t('switch_3d', lang)}
           </span>
         </button>
 
@@ -437,7 +437,7 @@ export default function Dashboard() {
             <Moon className="w-4 h-4 text-[var(--cyan-primary)] group-hover:scale-110 transition-transform" />
           )}
           <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 text-[9px] font-mono text-[var(--text-muted)] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass-panel px-2 py-1 z-[300]">
-            {mapStyle === 'dark' ? 'SATELLITE' : 'NIGHT MODE'}
+            {mapStyle === 'dark' ? t('satellite_view', lang) : t('night_mode', lang)}
           </span>
         </button>
       </motion.div>
@@ -489,7 +489,7 @@ export default function Dashboard() {
               <div className="glass-panel p-3 osiris-glow text-left" style={{ borderColor: `${threatColor}40` }}>
                 <div className="flex items-center gap-2 mb-2 pb-2 border-b border-[var(--border-secondary)]">
                   <span className="w-2 h-2 rounded-full animate-osiris-pulse" style={{ backgroundColor: threatColor }} />
-                  <span className="text-[11px] font-mono font-bold tracking-wider" style={{ color: threatColor }}>THREAT LEVEL: {threatLevel}</span>
+                  <span className="text-[11px] font-mono font-bold tracking-wider" style={{ color: threatColor }}>{t('threat_level', lang)}: {threatLevel}</span>
                 </div>
                 <div className="text-[9px] font-mono text-[var(--text-secondary)] mb-2">
                   Composite score: <span className="text-[var(--text-primary)] font-bold">{threatScore.toFixed(1)}</span>
@@ -523,9 +523,9 @@ export default function Dashboard() {
             </div>
           )}
         </span>
-        <span>SYS: <span className={backendStatus === 'connected' ? 'text-[var(--alert-green)]' : 'text-[var(--alert-red)]'}>{backendStatus.toUpperCase()}</span></span>
+        <span>{t('sys', lang)}: <span className={backendStatus === 'connected' ? 'text-[var(--alert-green)]' : 'text-[var(--alert-red)]'}>{backendStatus.toUpperCase()}</span></span>
 
-        {spaceWeather && <span className="hidden lg:inline">SOLAR: <span style={{ color: spaceWeather.storm_color, fontWeight: 700 }}>Kp{spaceWeather.kp_index}</span></span>}
+        {spaceWeather && <span className="hidden lg:inline">{t('solar', lang)}: <span style={{ color: spaceWeather.storm_color, fontWeight: 700 }}>Kp{spaceWeather.kp_index}</span></span>}
         <UptimeClock />
         <span>V4.1</span>
       </motion.div>
@@ -549,11 +549,11 @@ export default function Dashboard() {
             <LayerPanel data={data} activeLayers={activeLayers} setActiveLayers={setActiveLayers} />
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.5 }} className="glass-panel px-3 py-2.5 pointer-events-auto">
               <div className="grid grid-cols-5 gap-2 text-center">
-                <div><div className="hud-label">AIRCRAFT</div><div className="hud-value text-[10px] animate-data-pulse">{totalFlights.toLocaleString()}</div></div>
-                <div><div className="hud-label">SATS</div><div className="hud-value text-[10px]">{(data.satellites?.length||0).toLocaleString()}</div></div>
-                <div><div className="hud-label">CCTV</div><div className="hud-value text-[10px]">{(data.cameras?.length||0).toLocaleString()}</div></div>
-                <div><div className="hud-label">WEATHER</div><div className="hud-value text-[10px]" style={{ color: '#E040FB' }}>{(data.weather_events?.length||0)}</div></div>
-                <div><div className="hud-label">NUCLEAR</div><div className="hud-value text-[10px]" style={{ color: '#76FF03' }}>{(data.infrastructure?.length||0)}</div></div>
+                <div><div className="hud-label">{t('aircraft', lang)}</div><div className="hud-value text-[10px] animate-data-pulse">{totalFlights.toLocaleString()}</div></div>
+                <div><div className="hud-label">{t('sats', lang)}</div><div className="hud-value text-[10px]">{(data.satellites?.length||0).toLocaleString()}</div></div>
+                <div><div className="hud-label">{t('cctv', lang)}</div><div className="hud-value text-[10px]">{(data.cameras?.length||0).toLocaleString()}</div></div>
+                <div><div className="hud-label">{t('weather', lang)}</div><div className="hud-value text-[10px]" style={{ color: '#E040FB' }}>{(data.weather_events?.length||0)}</div></div>
+                <div><div className="hud-label">{t('nuclear', lang)}</div><div className="hud-value text-[10px]" style={{ color: '#76FF03' }}>{(data.infrastructure?.length||0)}</div></div>
               </div>
             </motion.div>
             <ViewPresets onNavigate={(lat, lng, zoom) => { setFlyToLocation({ lat, lng, ts: Date.now() }); setMapView(v => ({ ...v, zoom })); }} />
@@ -756,7 +756,7 @@ export default function Dashboard() {
           <div className="glass-panel px-5 py-2.5 flex items-center gap-5 osiris-glow" style={{ borderImage: 'linear-gradient(90deg, rgba(212,175,55,0.05), rgba(212,175,55,0.2), rgba(212,175,55,0.05)) 1', borderImageSlice: 1, borderWidth: '1px', borderStyle: 'solid' }}>
             {/* Threat Level */}
             <div className="flex flex-col items-center min-w-[70px]">
-              <div className="hud-label">THREAT</div>
+              <div className="hud-label">{t('threat', lang)}</div>
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full animate-osiris-pulse" style={{ backgroundColor: threatColor, boxShadow: `0 0 6px ${threatColor}` }} />
                 <span className="text-[10px] font-mono font-bold tracking-wide" style={{ color: threatColor }}>{threatLevel}</span>
@@ -764,23 +764,23 @@ export default function Dashboard() {
             </div>
             <div className="w-px h-7 bg-[var(--border-primary)]" />
             <div className="flex flex-col items-center min-w-[110px]">
-              <div className="hud-label">COORDINATES</div>
+              <div className="hud-label">{t('coordinates', lang)}</div>
               <div className="text-[10px] font-mono font-bold text-[var(--gold-primary)] tracking-wide">{mouseCoords ? `${mouseCoords.lat.toFixed(4)}, ${mouseCoords.lng.toFixed(4)}` : '—'}</div>
             </div>
             <div className="w-px h-7 bg-[var(--border-primary)]" />
             <div className="flex flex-col items-center min-w-[160px] max-w-[280px]">
-              <div className="hud-label">LOCATION</div>
-              <div className="text-[9px] text-[var(--text-secondary)] font-mono truncate max-w-[280px]">{locationLabel || 'Hover over map...'}</div>
+              <div className="hud-label">{lang === "ru" ? "МЕСТОПОЛОЖЕНИЕ" : "LOCATION"}</div>
+              <div className="text-[9px] text-[var(--text-secondary)] font-mono truncate max-w-[280px]">{locationLabel || t('hover_map', lang)}</div>
             </div>
             <div className="w-px h-7 bg-[var(--border-primary)]" />
             <div className="flex flex-col items-center">
-              <div className="hud-label">ZOOM</div>
+              <div className="hud-label">{t('zoom', lang)}</div>
               <div className="text-[10px] font-mono font-bold text-[var(--gold-primary)]">{mapView.zoom.toFixed(1)}</div>
             </div>
             <div className="w-px h-7 bg-[var(--border-primary)]" />
             {/* Data Feeds Count */}
             <div className="flex flex-col items-center min-w-[60px]">
-              <div className="hud-label">FEEDS</div>
+              <div className="hud-label">{t('feeds', lang)}</div>
               <div className="flex items-center gap-1">
                 <Activity className="w-3 h-3 text-[var(--cyan-primary)]" />
                 <span className="text-[10px] font-mono font-bold text-[var(--cyan-primary)]">{Object.values(activeLayers).filter(Boolean).length}</span>
@@ -800,29 +800,29 @@ export default function Dashboard() {
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="absolute top-16 md:top-20 left-2 right-2 md:left-1/2 md:right-auto md:-translate-x-1/2 z-[300] md:w-[480px] max-h-[65vh] overflow-y-auto styled-scrollbar">
           <div className="glass-panel p-5 osiris-glow">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-mono font-bold text-[var(--gold-primary)] tracking-wider">REGION DOSSIER</h2>
+              <h2 className="text-sm font-mono font-bold text-[var(--gold-primary)] tracking-wider">{lang === 'ru' ? 'ДОСЬЕ РЕГИОНА' : 'REGION DOSSIER'}</h2>
               <button onClick={() => { setRegionDossier(null); setDossierLoading(false); }} className="text-[var(--text-muted)] hover:text-[var(--text-primary)] text-xs">✕</button>
             </div>
             {dossierLoading ? (
               <div className="text-center py-8">
                 <div className="w-5 h-5 border-2 border-[var(--gold-primary)] border-t-transparent rounded-full animate-spin mx-auto mb-2" />
-                <span className="text-[8px] font-mono text-[var(--text-muted)] tracking-widest">COMPILING INTEL...</span>
+                <span className="text-[8px] font-mono text-[var(--text-muted)] tracking-widest">{lang === 'ru' ? 'СБОР ДАННЫХ...' : 'COMPILING INTEL...'}</span>
               </div>
             ) : regionDossier && (
               <div className="space-y-3">
-                <div><div className="hud-label mb-0.5">LOCATION</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.location?.display_name}</div></div>
+                <div><div className="hud-label mb-0.5">{lang === "ru" ? "МЕСТОПОЛОЖЕНИЕ" : "LOCATION"}</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.location?.display_name}</div></div>
                 {regionDossier.country && (
                   <div className="grid grid-cols-2 gap-2">
-                    <div><div className="hud-label mb-0.5">COUNTRY</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.flag} {regionDossier.country.name}</div></div>
-                    <div><div className="hud-label mb-0.5">CAPITAL</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.capital}</div></div>
-                    <div><div className="hud-label mb-0.5">POPULATION</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.population?.toLocaleString()}</div></div>
-                    <div><div className="hud-label mb-0.5">REGION</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.subregion || regionDossier.country.region}</div></div>
-                    <div><div className="hud-label mb-0.5">LANGUAGES</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.languages?.join(', ')}</div></div>
-                    <div><div className="hud-label mb-0.5">AREA</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.area?.toLocaleString()} km²</div></div>
+                    <div><div className="hud-label mb-0.5">{lang === "ru" ? "СТРАНА" : "COUNTRY"}</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.flag} {regionDossier.country.name}</div></div>
+                    <div><div className="hud-label mb-0.5">{lang === "ru" ? "СТОЛИЦА" : "CAPITAL"}</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.capital}</div></div>
+                    <div><div className="hud-label mb-0.5">{lang === "ru" ? "НАСЕЛЕНИЕ" : "POPULATION"}</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.population?.toLocaleString()}</div></div>
+                    <div><div className="hud-label mb-0.5">{lang === "ru" ? "РЕГИОН" : "REGION"}</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.subregion || regionDossier.country.region}</div></div>
+                    <div><div className="hud-label mb-0.5">{lang === "ru" ? "ЯЗЫКИ" : "LANGUAGES"}</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.languages?.join(', ')}</div></div>
+                    <div><div className="hud-label mb-0.5">{lang === "ru" ? "ПЛОЩАДЬ" : "AREA"}</div><div className="text-xs text-[var(--text-primary)]">{regionDossier.country.area?.toLocaleString()} km²</div></div>
                   </div>
                 )}
-                {regionDossier.head_of_state && (<div><div className="hud-label mb-0.5">HEAD OF STATE</div><div className="text-xs text-[var(--gold-primary)]">{regionDossier.head_of_state.name}</div><div className="text-[8px] text-[var(--text-muted)]">{regionDossier.head_of_state.position}</div></div>)}
-                {regionDossier.wikipedia && (<div><div className="hud-label mb-1">INTELLIGENCE BRIEF</div><div className="flex gap-3">{regionDossier.wikipedia.thumbnail && <img src={regionDossier.wikipedia.thumbnail} alt="" className="w-14 h-14 rounded object-cover flex-shrink-0" />}<p className="text-[8px] text-[var(--text-secondary)] leading-relaxed">{regionDossier.wikipedia.extract}</p></div></div>)}
+                {regionDossier.head_of_state && (<div><div className="hud-label mb-0.5">{lang === "ru" ? "ГЛАВА ГОСУДАРСТВА" : "HEAD OF STATE"}</div><div className="text-xs text-[var(--gold-primary)]">{regionDossier.head_of_state.name}</div><div className="text-[8px] text-[var(--text-muted)]">{regionDossier.head_of_state.position}</div></div>)}
+                {regionDossier.wikipedia && (<div><div className="hud-label mb-1">{lang === "ru" ? "РАЗВЕДСВОДКА" : "INTELLIGENCE BRIEF"}</div><div className="flex gap-3">{regionDossier.wikipedia.thumbnail && <img src={regionDossier.wikipedia.thumbnail} alt="" className="w-14 h-14 rounded object-cover flex-shrink-0" />}<p className="text-[8px] text-[var(--text-secondary)] leading-relaxed">{regionDossier.wikipedia.extract}</p></div></div>)}
               </div>
             )}
           </div>
@@ -855,7 +855,7 @@ export default function Dashboard() {
 
       {/* Shortcut hint */}
       <div className="desktop-only absolute bottom-[26px] right-5 z-[200] pointer-events-none text-[6px] font-mono text-[var(--text-muted)]/40 tracking-widest">
-        [?] SHORTCUTS · [F] FULLSCREEN · [S] SHARE · [R] RESET VIEW
+        {lang === 'ru' ? '[?] КЛАВИШИ · [F] ПОЛНЫЙ ЭКРАН · [S] ПОДЕЛИТЬСЯ · [R] СБРОС' : '[?] SHORTCUTS · [F] FULLSCREEN · [S] SHARE · [R] RESET VIEW'}
       </div>
 
 
