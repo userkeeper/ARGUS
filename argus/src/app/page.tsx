@@ -681,16 +681,16 @@ export default function Dashboard() {
           <div className="mobile-nav">
             <div className="glass-panel mobile-nav-inner">
               {[
-                { id: 'layers' as const, icon: Layers, label: 'LAYERS' },
-                { id: 'markets' as const, icon: BarChart3, label: 'MARKETS' },
-                { id: 'intel' as const, icon: Newspaper, label: 'INTEL' },
-                { id: 'recon' as const, icon: Radar, label: 'RECON' },
-                { id: 'search' as const, icon: Search, label: 'SEARCH' },
+                { id: 'layers' as const, icon: Layers, labelEn: 'LAYERS', labelRu: 'СЛОИ' },
+                { id: 'markets' as const, icon: BarChart3, labelEn: 'MARKETS', labelRu: 'РЫНКИ' },
+                { id: 'intel' as const, icon: Newspaper, labelEn: 'INTEL', labelRu: 'ДАННЫЕ' },
+                { id: 'recon' as const, icon: Radar, labelEn: 'RECON', labelRu: 'СКАН' },
+                { id: 'search' as const, icon: Search, labelEn: 'SEARCH', labelRu: 'ПОИСК' },
               ].map(tab => (
                 <button key={tab.id} onClick={() => setMobilePanel(mobilePanel === tab.id ? null : tab.id)}
                   className={`mobile-nav-btn ${mobilePanel === tab.id ? 'active' : ''}`}>
                   <tab.icon className={`w-4 h-4 ${tab.id === 'recon' ? 'text-[var(--cyan-primary)]' : ''}`} />
-                  <span className={tab.id === 'recon' ? 'text-[var(--cyan-primary)]' : ''}>{tab.label}</span>
+                  <span className={tab.id === 'recon' ? 'text-[var(--cyan-primary)]' : ''}>{lang === 'ru' ? (tab as any).labelRu : (tab as any).labelEn}</span>
                 </button>
               ))}
             </div>
@@ -702,14 +702,14 @@ export default function Dashboard() {
               <motion.div
                 initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="fixed bottom-[52px] left-0 right-0 z-[400] glass-panel rounded-b-none overflow-y-auto styled-scrollbar"
+                className="fixed bottom-[72px] left-0 right-0 z-[400] glass-panel rounded-b-none overflow-y-auto styled-scrollbar"
                 style={{ maxHeight: 'min(55vh, calc(100dvh - 100px))', paddingBottom: 'env(safe-area-inset-bottom, 4px)' }}
               >
                 <div className="mobile-drawer-handle" />
                 <div className="px-3 pb-3">
                   <div className="flex items-center justify-between mb-2">
                     <span className="hud-text text-[9px] text-[var(--text-primary)]">
-                      {mobilePanel === 'layers' ? 'LAYERS & STATS' : mobilePanel === 'markets' ? 'MARKETS & INTEL' : mobilePanel === 'intel' ? 'INTEL FEED' : mobilePanel === 'recon' ? 'ARGUS RECON' : 'SEARCH'}
+                      {lang === 'ru' ? (mobilePanel === 'layers' ? 'СЛОИ И ДАННЫЕ' : mobilePanel === 'markets' ? 'РЫНКИ' : mobilePanel === 'intel' ? 'РАЗВЕДКА' : mobilePanel === 'recon' ? 'ИНСТРУМЕНТЫ' : 'ПОИСК') : (mobilePanel === 'layers' ? 'LAYERS & STATS' : mobilePanel === 'markets' ? 'MARKETS & INTEL' : mobilePanel === 'intel' ? 'INTEL FEED' : mobilePanel === 'recon' ? 'ARGUS RECON' : 'SEARCH')}
                     </span>
                     <button onClick={() => setMobilePanel(null)} className="text-[var(--text-muted)] p-1"><X className="w-4 h-4" /></button>
                   </div>
