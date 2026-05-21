@@ -78,7 +78,7 @@ export default function MarketsPanel({ data, spaceWeather, lang = 'en' }: Market
 
             {/* Section Tabs — icons instead of emojis */}
             <div className="flex gap-0.5 mb-2 overflow-x-auto">
-              {SECTIONS.map(s => {
+              {SECTIONS_EN.map(s => {
                 const Icon = s.icon;
                 return (
                   <button key={s.key} onClick={() => setActiveSection(s.key)}
